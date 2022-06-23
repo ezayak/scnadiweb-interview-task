@@ -9,6 +9,12 @@ import ProgressBar from 'Component/ProgressBar';
 
 export class Checkout extends SourceCheckout {
     // TODO implement logic
+    checkStepsAsMarked = (stepList) => {
+        for (const stepKey in stepList) {
+            stepList[stepKey].marked = true;
+        }
+    }
+
     renderProgressBar() {
         const { checkoutStep } = this.props;
         let index = 0;
@@ -18,9 +24,7 @@ export class Checkout extends SourceCheckout {
         for (const key in this.stepMap) {
             if (key !== DETAILS_STEP) {
                 if (key === checkoutStep) {
-                    for (const stepKey in stepList) {
-                        stepList[stepKey].marked = true;
-                    }
+                    this.checkStepsAsMarked(stepList);
                 }
 
                 const step = this.stepMap[key];
@@ -34,6 +38,10 @@ export class Checkout extends SourceCheckout {
                     index: index,
                     id: key
                 };
+            } else {
+                if (key === checkoutStep) {
+                    this.checkStepsAsMarked(stepList);
+                }
             }
         }
 

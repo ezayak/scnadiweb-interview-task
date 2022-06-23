@@ -35,15 +35,24 @@ class Progressbar extends PureComponent {
     calculateWidth = () => {
         const { stepList } = this.props;
         const listLength = Object.keys(stepList).length;
-        const markedSteps = Object.keys(stepList).filter(key => {
-            return stepList[key].marked || stepList[key].isCurrentStep;
-        }).length;
+        let markedSteps = 0;
+        let currentStepIndex = 0;
 
-        const length = 25 + (listLength !== 0 ? 50 * markedSteps / listLength : 0);
+        for (const key in stepList) {
+            const step = stepList[key];
+            markedSteps = markedSteps + (step.marked ? 1 : 0);
+            currentStepIndex = step.isCurrentStep ? step.index - 1 : 0;
+        }
+
+        currentStepIndex = listLength === markedSteps ? listLength - 1 : currentStepIndex;
+ 
+        const widthStep = listLength - 1 !== 0 ? 50 / (listLength - 1) : 0;
+        const length = 25 + widthStep * currentStepIndex + (markedSteps === listLength ? 25 : 0);
+        console.log('markedSteps', markedSteps);
+        console.log('widthStep', widthStep);
+        console.log('currentStepIndex', currentStepIndex);
         console.log('length', length);
-        console.log('length', markedSteps);
-        console.log('length', listLength);
-        return `calc(${length}% + 30px)`;
+        return `calc(${length}%)`;
     }
 
     render() {
