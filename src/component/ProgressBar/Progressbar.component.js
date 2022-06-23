@@ -40,16 +40,19 @@ class Progressbar extends PureComponent {
         for (const key in stepList) {
             const step = stepList[key];
             markedSteps = markedSteps + (step.marked ? 1 : 0);
-            currentStepIndex = step.isCurrentStep ? step.index - 1 : 0;
+
+            if (step.isCurrentStep) {
+                currentStepIndex = step.index - 1;
+            }
         }
+
+        console.log('currentStepIndex 1', currentStepIndex);
 
         currentStepIndex = listLength === markedSteps ? listLength - 1 : currentStepIndex;
  
         const widthStep = listLength - 1 !== 0 ? 50 / (listLength - 1) : 0;
         const length = 25 + widthStep * currentStepIndex + (markedSteps === listLength ? 25 : 0);
         const correction = currentStepIndex === 0 ? 15 : (currentStepIndex === listLength - 1 && markedSteps !== listLength ? - 15 : 0);
-        console.log('length', length);
-        console.log('correction', correction);
         return `calc(${length}% + ${correction}px)`;
     }
 
