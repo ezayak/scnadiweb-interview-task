@@ -1,0 +1,96 @@
+.progressbar-container {
+  background-color: var(--secondary-base-color);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  transform: translateY(-20%);
+}
+
+.progressbar-container::before {
+  content: "";
+  background: var(--placeholder-gradient-color);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-25px);
+  height: 4px;
+  width: 100%;
+  z-index: 1;
+}
+
+.progress-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 30px;
+  max-width: 100%;
+  width: 50%;
+  transition: 0.4s ease;
+}
+
+.progress {
+  background: var(--primary-base-color);
+  position: absolute;
+  top: 17px;
+  left: 0;
+  height: 4px;
+  width: 50%;
+  z-index: 2;
+  animation-name: show-progress;
+  animation-duration: 1s;
+  
+}
+
+@keyframes show-progress {
+  0% {
+      width: 0;
+  }
+  100% {
+      width: 100%;
+  }
+}
+
+
+.step-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.circle {
+  background: var(--placeholder-gradient-color);
+  color: white;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--placeholder-gradient-color);
+  transition: 10s ease;
+  z-index: 2;
+  box-shadow: 0 0 0 10px var(--secondary-base-color);
+}
+
+.circle.active {
+  border-color: var(--primary-base-color);
+  background: var(--primary-base-color);
+  animation-name: show-circle-progress;
+  animation-duration: 1s;
+}
+
+
+@keyframes show-circle-progress {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+.progress-title {
+  padding-top: 10px;
+  display: flex;
+  z-index: 6;
+}
