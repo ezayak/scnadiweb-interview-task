@@ -34,11 +34,8 @@
   top: 17px;
   left: 0;
   height: 4px;
-  width: 50%;
   z-index: 2;
-  animation-name: show-progress;
-  animation-duration: 1s;
-  
+  transition: width 1s ease-in-out;
 }
 
 @keyframes show-progress {
@@ -76,7 +73,7 @@
   border-color: var(--primary-base-color);
   background: var(--primary-base-color);
   animation-name: show-circle-progress;
-  animation-duration: 1s;
+  animation-duration: 0.3s;
 }
 
 
