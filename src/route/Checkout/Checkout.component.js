@@ -45,8 +45,6 @@ export class Checkout extends SourceCheckout {
             }
         }
 
-        console.log('stepList', stepList);
-
         return (
              <ProgressBar stepList={ stepList } currentStep={ currentStep }/>
         );

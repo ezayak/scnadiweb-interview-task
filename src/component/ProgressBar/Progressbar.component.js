@@ -3,12 +3,15 @@ import { PureComponent } from 'react';
 import './Progressbar.style.scss';
 
 class Progressbar extends PureComponent {
-    renderElement(step) {
+    renderElement(step, stepWidth) {
         const { title, marked, index, id, isCurrentStep } = step;
         const className = marked || isCurrentStep ? 'active' : '';
+        const stepContainerStyle = {
+            width: `${stepWidth}%`
+        }
 
         return (
-            <div className='step-container'>
+            <div className='step-container' style={ stepContainerStyle }>
                 <div className={`circle ${className}`} key={ id }>
                     { marked ? <span> &#10003; </span> : <span>{ index }</span> }
                 </div>
@@ -21,11 +24,12 @@ class Progressbar extends PureComponent {
 
     renderList() {
         const stepList = Object.keys(this.props.stepList).map(key => this.props.stepList[key]);
+        const stepWidth = stepList.length !== 0 ? 100 / stepList.length : 0;
 
         return (
             <div class="progress-container">
                 { stepList.map(step => {
-                    return this.renderElement(step);
+                    return this.renderElement(step, stepWidth);
                 }) }
             </div>
         );
@@ -34,6 +38,11 @@ class Progressbar extends PureComponent {
     calculateWidth = () => {
         const { stepList } = this.props;
         const listLength = Object.keys(stepList).length;
+
+        if (listLength === 0) {
+            return 0;
+        }
+
         let markedSteps = 0;
         let currentStepIndex = 0;
 
@@ -46,14 +55,12 @@ class Progressbar extends PureComponent {
             }
         }
 
-        console.log('currentStepIndex 1', currentStepIndex);
-
+        const left = 25 + 25 /listLength;
+        const right = markedSteps === listLength ? left : 0;
         currentStepIndex = listLength === markedSteps ? listLength - 1 : currentStepIndex;
- 
-        const widthStep = listLength - 1 !== 0 ? 50 / (listLength - 1) : 0;
-        const length = 25 + widthStep * currentStepIndex + (markedSteps === listLength ? 25 : 0);
-        const correction = currentStepIndex === 0 ? 15 : (currentStepIndex === listLength - 1 && markedSteps !== listLength ? - 15 : 0);
-        return `calc(${length}% + ${correction}px)`;
+        const widthStep = 50 / listLength;
+        const length = left + widthStep * currentStepIndex + right;
+        return `calc(${length}%)`;
     }
 
     render() {
